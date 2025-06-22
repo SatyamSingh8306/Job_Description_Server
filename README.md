@@ -1,6 +1,6 @@
 # Job Description Generator API
 
-A professional FastAPI-based service that generates detailed job descriptions using LLM technology.
+A FastAPI-based API for generating professional job descriptions using LLMs (Groq or Ollama), with robust error handling, logging, and a Streamlit app for easy testing.
 
 ## Features
 
@@ -10,14 +10,16 @@ A professional FastAPI-based service that generates detailed job descriptions us
 - Input validation and sanitization
 - RESTful API with OpenAPI documentation
 - Configurable through environment variables
+- Streamlit app for interactive API testing
 - Extensive test coverage
 
 ## Prerequisites
 
 - Python 3.8 or higher
-- Poetry or pip for dependency management
+- pip for dependency management
 - Groq API key (if using Groq backend)
 - Ollama installation (if using Ollama backend)
+- (Optional) Streamlit for UI testing
 
 ## Installation
 
@@ -53,6 +55,8 @@ ENVIRONMENT=development
 ## Running the Server
 
 ```bash
+
+python -m app
 # Development mode with auto-reload
 uvicorn app.main:app --reload
 
@@ -63,7 +67,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 ## API Documentation
 
 Once the server is running, access the API documentation at:
-- Swagger UI: `http://localhost:8000/docs`
+- Swagger UI: `http://localhost:8000/v1/docs`
 - ReDoc: `http://localhost:8000/redoc`
 
 ## API Usage
@@ -71,7 +75,7 @@ Once the server is running, access the API documentation at:
 ### Generate Job Description
 
 ```bash
-curl -X POST "http://localhost:8000/api/v1/generate" \
+curl -X POST "http://localhost:8000/v1/job-description/generate" \
      -H "Content-Type: application/json" \
      -d '{
            "title": "Senior Software Engineer",
@@ -85,18 +89,26 @@ curl -X POST "http://localhost:8000/api/v1/generate" \
          }'
 ```
 
+## Streamlit App for Testing
+
+You can interactively test the API using the included Streamlit app:
+
+1. (Optional) Uncomment `streamlit` in `requirements.txt` and install it:
+   ```bash
+   pip install streamlit
+   ```
+2. Run the Streamlit app:
+   ```bash
+   streamlit run streamlit_app.py
+   ```
+3. Use the web UI to check API health and generate job descriptions.
+
 ## Development
 
 ### Running Tests
 
 ```bash
-# Run all tests
 pytest
-
-# Run specific test categories
-pytest -m unit  # Unit tests
-pytest -m integration  # Integration tests
-pytest -m api  # API tests
 ```
 
 ### Code Quality
@@ -118,38 +130,39 @@ mypy .
 ```
 ├── app/
 │   ├── __init__.py
+│   ├── __main__.py
 │   ├── main.py
-│   ├── config.py
-│   ├── exceptions.py
+│   ├── app_v1.py
 │   ├── dependencies.py
 │   ├── routers/
+│   │   ├── __init__.py
+│   │   └── job_description.py
 │   ├── services/
+│   │   ├── __init__.py
+│   │   └── llm_service.py
 │   ├── types/
-│   ├── utils/
-│   └── middleware/
-├── tests/
+│   │   ├── __init__.py
+│   │   └── job_description.py
+│   └── utils/
+│       ├── __init__.py
+│       ├── logger.py
+│       └── errors/
+│           └── exceptions.py
+├── streamlit_app.py
 ├── .env
 ├── .gitignore
 ├── README.md
 ├── requirements.txt
-├── setup.cfg
-└── pytest.ini
+├── Dockerfile
 ```
 
 ## Error Handling
 
-The API implements comprehensive error handling with custom exceptions:
-
-- `InvalidJobDetailsError`: Invalid or missing job details
-- `LLMConfigurationError`: LLM setup issues
-- `LLMConnectionError`: Connection problems with LLM service
-- `GenerationError`: Job description generation failures
+The API implements comprehensive error handling with custom exceptions (see `app/utils/errors/exceptions.py`).
 
 ## Logging
 
-Logs are stored in the `logs` directory with automatic rotation:
-- `app.log`: Main application log
-- Console output for development
+Logs are output to the console for development. You can extend logging in `app/utils/logger.py`.
 
 ## Contributing
 
