@@ -6,7 +6,7 @@ from langchain_groq import ChatGroq
 from langchain_ollama import ChatOllama
 from langchain.schema.output import LLMResult
 from app import USE_GROQ, MODEL_NAME, API_KEY, BASE_URL
-from app.exceptions import (
+from app.utils.errors.exceptions import (
     LLMConfigurationError,
     LLMConnectionError,
     InvalidJobDetailsError,

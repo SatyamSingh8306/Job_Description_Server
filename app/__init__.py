@@ -11,7 +11,7 @@ load_dotenv()
 # LLM Configuration
 USE_GROQ = os.getenv("USE_GROQ", "true").lower() == "true"
 MODEL_NAME = os.getenv("MODEL_NAME", "mixtral-8x7b-32768")
-API_KEY = os.getenv("API_KEY", "")
+API_KEY = os.getenv("GROQ_API_KEY", "")
 BASE_URL = os.getenv("BASE_URL", "http://localhost:11434")
 
 # Server Configuration

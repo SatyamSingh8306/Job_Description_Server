@@ -3,7 +3,7 @@ from app.types.job_description import JobDetails, JobDescriptionResponse
 from app.services.llm_service import LLMService
 from app.dependencies import get_llm_service
 from app.utils.logger import logger
-from app.exceptions import (
+from app.utils.errors.exceptions import (
     LLMConfigurationError,
     LLMConnectionError,
     InvalidJobDetailsError,
